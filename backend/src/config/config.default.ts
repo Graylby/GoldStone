@@ -9,7 +9,7 @@ export default (appInfo: MidwayAppInfo) => {
     },
     jwt: {
       secret: 'a2`ex.FHU?_V',
-      expiresIn: '2d',
+      expiresIn: '1m',
     },
     passport: {
       session: false,

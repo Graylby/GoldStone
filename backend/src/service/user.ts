@@ -15,7 +15,7 @@ export class UserService {
     };
     const user = await this.userModel.findOne(option);
     if (user === null) throw new InternalServerErrorError('用户名未注册');
-    else return user;
+    return user;
   }
 
   async saveUser(user: UserPassport) {
