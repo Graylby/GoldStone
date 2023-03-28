@@ -10,6 +10,6 @@ export class JwtPassportMiddleware extends PassportMiddleware(JwtStrategy) {
   }
 
   ignore(ctx: Context): boolean {
-    return ctx.path === '/login';
+    return ctx.path === '/user/login' || ctx.path === '/user/register';
   }
 }

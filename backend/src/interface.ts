@@ -1,6 +1,11 @@
 /**
  * @description User-Service parameters
  */
+export interface TalkUser {
+  name: string;
+  id: string;
+}
+
 export interface IUserOptions {
   username: string;
 }

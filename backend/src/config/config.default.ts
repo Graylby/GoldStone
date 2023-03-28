@@ -32,5 +32,13 @@ export default (appInfo: MidwayAppInfo) => {
     // security: {
     //   csrf: false,
     // },
+    socketIO: {
+      path: '/socketIo',
+      transports: ['polling', 'websocket'],
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST'],
+      },
+    },
   } as MidwayConfig;
 };

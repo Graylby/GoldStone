@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'bearer') {
       const payload = this.jwt.decode(token);
       return done(null, payload);
     } catch (e) {
-      const msg = e.message === 'jwt expired' ? '登录过期' : 'token格式错误';
+      const msg = e.message === 'jwt expired' ? '登录过期' : 'token错误';
       throw new httpError.InternalServerErrorError(msg);
     }
   }

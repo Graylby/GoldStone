@@ -19,7 +19,7 @@ export class UserController {
     const t = await this.userService.getUser(user.username);
     let data = null;
     if (user.password === t.password) {
-      data = await this.jwt.sign({ id: t.id });
+      data = await this.jwt.sign({ id: t.id }, { expiresIn: '5m' });
     } else return this.res.error('密码错误');
     return this.res.success(data, '登录成功');
   }
