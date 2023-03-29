@@ -21,9 +21,6 @@ const routes: Array<RouteRecordRaw> = [
     name: "cheat",
     path: "/cheat",
     component: () => import("../pages/cheat.vue"),
-    meta: {
-      hasNav: true,
-    },
   },
   {
     name: "account",

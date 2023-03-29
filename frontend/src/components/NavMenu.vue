@@ -9,8 +9,8 @@
 
 <script setup lang="ts">
 
-import {ref} from "vue";
-import {useRouter} from "vue-router";
+import {ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
 
 interface Menu {
   id: string,
@@ -20,6 +20,7 @@ interface Menu {
 }
 
 const router = useRouter();
+const route = useRoute()
 const menus = ref([
   {
     id: 'home',
@@ -55,6 +56,18 @@ const onChangeActive = (menu: Menu) => {
     name: menu.id
   })
 }
+const init = () => {
+  const name = String(route.name)
+  activeIndex.value = name;
+  console.log(route.name)
+}
+watch(
+    () => route.name,
+    (newName: any) => {
+      activeIndex.value = newName
+    }
+)
+init();
 </script>
 
 <style scoped lang="scss">
