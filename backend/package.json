@@ -9,6 +9,7 @@
     "@midwayjs/decorator": "^3.0.0",
     "@midwayjs/jwt": "^3.8.0",
     "@midwayjs/passport": "^3.8.0",
+    "@midwayjs/redis": "^3.11.0",
     "@midwayjs/socketio": "^3.10.13",
     "@midwayjs/swagger": "^3.8.0",
     "@midwayjs/typeorm": "^3.8.3",

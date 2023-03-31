@@ -33,7 +33,7 @@ body {
     /*place-items: center;*/
     min-width: 320px;
     min-height: 100vh;
-    /*background-color: var(--el-bg-color);*/
+    background-color: #f7f8fa;
 }
 
 button {

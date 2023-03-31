@@ -9,11 +9,12 @@ import * as passport from '@midwayjs/passport';
 import * as jwt from '@midwayjs/jwt';
 import * as orm from '@midwayjs/typeorm';
 import * as socketio from '@midwayjs/socketio';
+import * as redis from '@midwayjs/redis';
 
 import { InternalFilter } from './filter/internal.filter';
 
 @Configuration({
-  imports: [egg, swagger, passport, jwt, orm, socketio],
+  imports: [egg, swagger, passport, jwt, orm, socketio, redis],
   importConfigs: [join(__dirname, './config')],
 })
 export class ContainerLifeCycle implements ILifeCycle {

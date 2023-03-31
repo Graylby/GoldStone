@@ -29,6 +29,14 @@ export default (appInfo: MidwayAppInfo) => {
         },
       },
     },
+    redis: {
+      client: {
+        port: 6379,
+        host: '82.156.23.40',
+        password: '<CW5]c-yABI',
+        db: 0,
+      },
+    },
     // security: {
     //   csrf: false,
     // },

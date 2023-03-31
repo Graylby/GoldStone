@@ -25,26 +25,26 @@ const menus = ref([
   {
     id: 'home',
     name: '首页',
-    icon: 'shouye',
-    activeIcon: 'shouyefill',
+    icon: 'home',
+    activeIcon: 'home-fill',
   },
   {
     id: 'store',
     name: '仓库',
-    icon: 'dianpu',
-    activeIcon: 'dianpufill',
+    icon: 'store',
+    activeIcon: 'store-fill',
   },
   {
     id: 'cheat',
     name: '聊天',
-    icon: 'pengyou',
-    activeIcon: 'pengyoufill',
+    icon: 'cheat',
+    activeIcon: 'cheat-fill',
   },
   {
     id: 'account',
     name: '我的',
-    icon: 'wode',
-    activeIcon: 'wodefill',
+    icon: 'account',
+    activeIcon: 'account-fill',
   },
 ])
 const activeIndex = ref('home')
