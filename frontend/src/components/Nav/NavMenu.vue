@@ -1,27 +1,32 @@
 <template>
   <div class="box">
     <div class="menu-item" v-for="m in menus" @click="onChangeActive(m)" :key="m.id">
-      <i v-if="activeIndex !== m.id" :class="'iconfont icon-'+m.icon"/>
-      <i v-else :class="'iconfont icon-'+m.activeIcon"/>
+      <div class="inner-item">
+        <nut-badge :hidden="m.hasBadge" :value="8" :color="badgeColor">
+          <i :class="'iconfont icon-'+m.icon"/>
+        </nut-badge>
+        <span>{{ m.name }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 interface Menu {
   id: string,
   name: string,
   icon: string,
-  activeIcon: string,
+  hasBadge: boolean
 }
 
 const router = useRouter();
 const route = useRoute()
-const menus = ref([
+const badgeColor = 'linear-gradient(315deg, rgba(73,143,242,1) 0%,rgba(73,101,242,1) 100%)'
+const menusInfo = [
   {
     id: 'home',
     name: '首页',
@@ -46,8 +51,20 @@ const menus = ref([
     icon: 'account',
     activeIcon: 'account-fill',
   },
-])
+]
 const activeIndex = ref('home')
+const menus = computed(() => {
+  return menusInfo.map(v => {
+    const menu = <Menu>{
+      id: v.id,
+      name: v.name,
+      icon: '',
+    }
+    menu.icon = v.id === activeIndex.value ? v.activeIcon : v.icon;
+    menu.hasBadge = v.id !== 'cheat'
+    return menu;
+  })
+})
 
 const onChangeActive = (menu: Menu) => {
   if (activeIndex.value === menu.id) return;
@@ -72,25 +89,37 @@ init();
 
 <style scoped lang="scss">
 .box {
+  $iconSize: 40px;
+  $menuHeight: 80px;
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 80px;
+  height: $menuHeight;
   width: 100%;
   display: flex;
   border-top: solid 1px gainsboro;
-  backdrop-filter: saturate(50%) blur(4px);
+  backdrop-filter: saturate(50%) blur(8px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);
-  $iconSize: 40px;
-  $menuHeight: 80px;
 
   .menu-item {
     flex-grow: 1;
 
-    .iconfont {
-      font-size: $iconSize;
-      line-height: $menuHeight;
+
+    .inner-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: $menuHeight;
+
+      .iconfont {
+        height: $iconSize;
+        width: $iconSize;
+        font-size: $iconSize;
+        line-height: $iconSize;
+      }
     }
+
   }
 }
 </style>

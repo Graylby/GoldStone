@@ -4,30 +4,46 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: "home",
     path: "/",
-    component: () => import("../pages/home.vue"),
+    component: () => import("../pages/home/home.vue"),
     meta: {
-      hasNav: true,
+      hasTabBar: true,
+    },
+  },
+  {
+    name: "detail",
+    path: "/detail",
+    component: () => import("../pages/home/stuffDetail.vue"),
+    meta: {
+      hasInfo: true,
     },
   },
   {
     name: "store",
     path: "/store",
-    component: () => import("../pages/store.vue"),
+    component: () => import("../pages/store/store.vue"),
     meta: {
-      hasNav: true,
+      hasTabBar: true,
     },
+  },
+  {
+    name: "newStuff",
+    path: "/store/new",
+    component: () => import("../pages/store/newStuff.vue"),
   },
   {
     name: "cheat",
     path: "/cheat",
-    component: () => import("../pages/cheat.vue"),
+    component: () => import("../pages/messages/cheat.vue"),
+    meta: {
+      hasTabBar: true,
+    },
   },
   {
     name: "account",
     path: "/account",
-    component: () => import("../pages/account.vue"),
+    component: () => import("../pages/account/account.vue"),
     meta: {
-      hasNav: true,
+      hasTabBar: true,
     },
   },
   {

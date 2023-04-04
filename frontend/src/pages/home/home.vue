@@ -9,9 +9,9 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {StuffInfo} from "../interface";
-import Stuff from "../components/Stuff.vue";
-import SearchBar from "../components/SearchBar.vue";
+import {StuffInfo} from "@/interface";
+import Stuff from "@/components/Stuff/Stuff.vue";
+import SearchBar from "@/components/Nav/SearchBar.vue";
 
 const stuffs = ref(new Array<StuffInfo>);
 const init = (val: number) => {
@@ -19,7 +19,7 @@ const init = (val: number) => {
     stuffs.value.push({
       img: 'https://img12.360buyimg.com/n1/s450x450_jfs/t1/163481/23/35321/74958/6424fa60F45118251/9d9b976e0285bac3.jpg',
       des: '这是个描述',
-      degree: '99新',
+      tags: ['99新', '索尼'],
     })
   }
 }
@@ -34,6 +34,7 @@ init(50)
   gap: 10px;
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 91px;
 
   .stuff-box {
     width: calc(50% - 5px);

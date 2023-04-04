@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import {inject, ref} from "vue";
 import {useRouter} from "vue-router";
-import service from "../requset";
+import service from "../../requset";
 
 const myName = ref('')
 const targetName = ref('')

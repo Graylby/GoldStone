@@ -6,5 +6,5 @@ export const User = {
 export interface StuffInfo {
   img: String;
   des: String;
-  degree: String;
+  tags: Array<String>;
 }

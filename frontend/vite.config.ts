@@ -3,7 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import fs from "fs";
+import { resolve } from "path";
 
 const NutUIResolver = () => {
   return (name) => {
@@ -28,6 +28,11 @@ export default defineConfig({
       resolvers: [ElementPlusResolver(), NutUIResolver()],
     }),
   ],
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "./src"),
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
@@ -37,10 +42,10 @@ export default defineConfig({
   },
   server: {
     host: "0.0.0.0",
-    https: {
-      key: fs.readFileSync("keys/localhost+1-key.pem"), // 读取我们上面生成的公钥
-      cert: fs.readFileSync("keys/localhost+1.pem"), // 读取我们上面生成的证书
-    },
+    // https: {
+    //   key: fs.readFileSync("keys/localhost+1-key.pem"), // 读取我们上面生成的公钥
+    //   cert: fs.readFileSync("keys/localhost+1.pem"), // 读取我们上面生成的证书
+    // },
     proxy: {
       "/api": {
         // target: "http://127.0.0.1:7001",

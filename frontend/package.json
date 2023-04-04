@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
-    "@nutui/nutui": "^4.0.2",
+    "@nutui/nutui": "^4.0.3",
     "axios": "^1.3.4",
     "element-plus": "^2.2.27",
     "fs": "^0.0.1-security",
