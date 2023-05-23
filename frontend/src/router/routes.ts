@@ -39,6 +39,14 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    name: "message",
+    path: "/message",
+    component: () => import("../pages/messages/messages.vue"),
+    meta: {
+      hasNav: true,
+    },
+  },
+  {
     name: "account",
     path: "/account",
     component: () => import("../pages/account/account.vue"),
@@ -50,6 +58,38 @@ const routes: Array<RouteRecordRaw> = [
     name: "login",
     path: "/login",
     component: () => import("../pages/login/login.vue"),
+  },
+  {
+    name: "register",
+    path: "/register",
+    component: () => import("../pages/login/register.vue"),
+  },
+  {
+    name: "adminLogin",
+    path: "/admin/login",
+    component: () => import("../pages/admin/login.vue"),
+  },
+  {
+    name: "admin",
+    path: "/admin",
+    component: () => import("../pages/admin/home.vue"),
+    children: [
+      {
+        name: "dashboard",
+        path: "/admin/dashboard",
+        component: () => import("../pages/admin/dashboard.vue"),
+      },
+      {
+        name: "service",
+        path: "/admin/service",
+        component: () => import("../pages/admin/service.vue"),
+      },
+      {
+        name: "users",
+        path: "/admin/users",
+        component: () => import("../pages/admin/users.vue"),
+      },
+    ],
   },
 ];
 export default routes;

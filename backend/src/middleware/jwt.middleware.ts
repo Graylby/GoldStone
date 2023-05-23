@@ -1,4 +1,4 @@
-import { Middleware } from '@midwayjs/decorator';
+import { Middleware } from '@midwayjs/core';
 import { AuthenticateOptions, PassportMiddleware } from '@midwayjs/passport';
 import { JwtStrategy } from '../strategy/jwt.strategy';
 import { Context } from '@midwayjs/web';
@@ -13,7 +13,8 @@ export class JwtPassportMiddleware extends PassportMiddleware(JwtStrategy) {
     return (
       ctx.path === '/user/login' ||
       ctx.path === '/user/register' ||
-      ctx.path === '/test'
+      ctx.path === '/test' ||
+      ctx.path === '/upload/img'
     );
   }
 }

@@ -1,29 +1,29 @@
 <template>
-  <search-bar :is-home="true"/>
+  <search-bar :is-home="true" />
   <div class="main-box">
     <div class="stuff-box" v-for="v in stuffs">
-      <stuff class="stuff" :info="v"/>
+      <stuff class="stuff" :info="v" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
-import {StuffInfo} from "@/interface";
+import { ref } from "vue";
+import { StuffInfo } from "@/interface";
 import Stuff from "@/components/Stuff/Stuff.vue";
 import SearchBar from "@/components/Nav/SearchBar.vue";
 
-const stuffs = ref(new Array<StuffInfo>);
+const stuffs = ref(new Array<StuffInfo>());
 const init = (val: number) => {
   for (let i = 0; i < val; i++) {
     stuffs.value.push({
-      img: 'https://img12.360buyimg.com/n1/s450x450_jfs/t1/163481/23/35321/74958/6424fa60F45118251/9d9b976e0285bac3.jpg',
-      des: '这是个描述',
-      tags: ['99新', '索尼'],
-    })
+      img: `https://loremflickr.com/320/240/commodity/?random=${i + 1}`,
+      des: "这是一段描述,当描述过长时将会隐藏多余的内容。",
+      tags: ["99新", "索尼"],
+    });
   }
-}
-init(50)
+};
+init(50);
 </script>
 
 <style scoped lang="scss">
@@ -43,8 +43,7 @@ init(50)
       width: 100%;
       border-radius: 20px;
       background: #ffffff;
-      box-shadow: 15px 15px 30px #bebebe,
-      -15px -15px 30px #ffffff;
+      box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
     }
   }
 }

@@ -3,7 +3,8 @@
     <div class="user-info">
       <nut-avatar size="large">
         <img
-            src="https://img12.360buyimg.com/imagetools/jfs/t1/196430/38/8105/14329/60c806a4Ed506298a/e6de9fb7b8490f38.png"/>
+          src="https://img12.360buyimg.com/imagetools/jfs/t1/196430/38/8105/14329/60c806a4Ed506298a/e6de9fb7b8490f38.png"
+        />
       </nut-avatar>
       <div class="user-name">
         <p>{{ user.name }}</p>
@@ -11,7 +12,7 @@
       </div>
     </div>
     <div class="info-menu">
-      <div v-for="(v,i) in infoMenu" :key="i">
+      <div v-for="(v, i) in infoMenu" :key="i">
         <p>{{ v.val }}</p>
         <p>{{ v.name }}</p>
       </div>
@@ -21,34 +22,37 @@
         <div class="title item">我的交易</div>
         <div class="all item">全部</div>
       </div>
-      <div class="recent-order"></div>
+      <div class="recent-order">
+        <order-card />
+      </div>
     </div>
     <div class="menu"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import { reactive, ref } from "vue";
+import OrderCard from "@/components/Order/OrderCard.vue";
 
 const user = reactive({
-  name: 'Gray尘离',
-  tag: '金牌用户'
-})
+  name: "Gray尘离",
+  tag: "金牌用户",
+});
 const infoMenu = ref([
   {
-    name: '收藏',
+    name: "收藏",
     val: 0,
   },
   {
-    name: '历史浏览',
+    name: "历史浏览",
     val: 7,
   },
   {
-    name: '关注',
+    name: "关注",
     val: 3,
   },
   {
-    name: '粉丝',
+    name: "粉丝",
     val: 6,
   },
 ]);
@@ -98,12 +102,12 @@ p {
   }
 
   .order-menu {
+    box-sizing: border-box;
     width: 100%;
-    //padding: 0 10px;
+    padding: 10px;
     border-radius: 10px;
     background: #ffffff;
-    box-shadow: 15px 15px 30px #bebebe,
-    -15px -15px 30px #ffffff;
+    box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
 
     .box {
       display: flex;

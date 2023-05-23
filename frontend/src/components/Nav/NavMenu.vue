@@ -1,9 +1,14 @@
 <template>
   <div class="box">
-    <div class="menu-item" v-for="m in menus" @click="onChangeActive(m)" :key="m.id">
+    <div
+      class="menu-item"
+      v-for="m in menus"
+      @click="onChangeActive(m)"
+      :key="m.id"
+    >
       <div class="inner-item">
         <nut-badge :hidden="m.hasBadge" :value="8" :color="badgeColor">
-          <i :class="'iconfont icon-'+m.icon"/>
+          <i :class="'iconfont icon-' + m.icon" />
         </nut-badge>
         <span>{{ m.name }}</span>
       </div>
@@ -12,78 +17,77 @@
 </template>
 
 <script setup lang="ts">
-
-import {computed, ref, watch} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import { computed, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 interface Menu {
-  id: string,
-  name: string,
-  icon: string,
-  hasBadge: boolean
+  id: string;
+  name: string;
+  icon: string;
+  hasBadge: boolean;
 }
 
 const router = useRouter();
-const route = useRoute()
-const badgeColor = 'linear-gradient(315deg, rgba(73,143,242,1) 0%,rgba(73,101,242,1) 100%)'
+const route = useRoute();
+const badgeColor =
+  "linear-gradient(315deg, rgba(73,143,242,1) 0%,rgba(73,101,242,1) 100%)";
 const menusInfo = [
   {
-    id: 'home',
-    name: '首页',
-    icon: 'home',
-    activeIcon: 'home-fill',
+    id: "home",
+    name: "首页",
+    icon: "home",
+    activeIcon: "home-fill",
   },
   {
-    id: 'store',
-    name: '仓库',
-    icon: 'store',
-    activeIcon: 'store-fill',
+    id: "store",
+    name: "仓库",
+    icon: "store",
+    activeIcon: "store-fill",
   },
   {
-    id: 'cheat',
-    name: '聊天',
-    icon: 'cheat',
-    activeIcon: 'cheat-fill',
+    id: "cheat",
+    name: "聊天",
+    icon: "cheat",
+    activeIcon: "cheat-fill",
   },
   {
-    id: 'account',
-    name: '我的',
-    icon: 'account',
-    activeIcon: 'account-fill',
+    id: "account",
+    name: "我的",
+    icon: "account",
+    activeIcon: "account-fill",
   },
-]
-const activeIndex = ref('home')
+];
+const activeIndex = ref("home");
 const menus = computed(() => {
-  return menusInfo.map(v => {
+  return menusInfo.map((v) => {
     const menu = <Menu>{
       id: v.id,
       name: v.name,
-      icon: '',
-    }
+      icon: "",
+    };
     menu.icon = v.id === activeIndex.value ? v.activeIcon : v.icon;
-    menu.hasBadge = v.id !== 'cheat'
+    menu.hasBadge = v.id !== "cheat";
     return menu;
-  })
-})
+  });
+});
 
 const onChangeActive = (menu: Menu) => {
   if (activeIndex.value === menu.id) return;
   activeIndex.value = menu.id;
   router.push({
-    name: menu.id
-  })
-}
+    name: menu.id,
+  });
+};
 const init = () => {
-  const name = String(route.name)
+  const name = String(route.name);
   activeIndex.value = name;
-  console.log(route.name)
-}
+};
 watch(
-    () => route.name,
-    (newName: any) => {
-      activeIndex.value = newName
-    }
-)
+  () => route.name,
+  (newName: any) => {
+    activeIndex.value = newName;
+  }
+);
 init();
 </script>
 
@@ -97,13 +101,13 @@ init();
   height: $menuHeight;
   width: 100%;
   display: flex;
+  background: rgba(247, 248, 250, 0.5);
   border-top: solid 1px gainsboro;
   backdrop-filter: saturate(50%) blur(8px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);
 
   .menu-item {
     flex-grow: 1;
-
 
     .inner-item {
       display: flex;
@@ -119,7 +123,6 @@ init();
         line-height: $iconSize;
       }
     }
-
   }
 }
 </style>

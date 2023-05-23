@@ -2,79 +2,92 @@
   <div class="box">
     <div class="header">
       <span @click="cancelAdd" class="back">取消</span>
-      <nut-button>发布</nut-button>
+      <nut-button @click="onsubmit()">发布</nut-button>
     </div>
     <div class="editArea">
       <nut-textarea
-          max-length="1000"
-          :placeholder="placeholder"
-          :autosize="autosize"
-          v-model="des"/>
-      <nut-uploader url="https://xxxx" multiple maximum="9"/>
+        max-length="1000"
+        :placeholder="placeholder"
+        :autosize="autosize"
+        v-model="des"
+      />
+      <nut-uploader url="/api/api/upload" multiple maximum="9" />
     </div>
     <div class="tagEdit">
       <p>为旧物添加标签吧</p>
       <div class="fineness">
         <div class="title">成色</div>
         <nut-radio-group v-model="fineness" direction="horizontal">
-          <nut-radio shape="button" label="1">全新</nut-radio>
-          <nut-radio shape="button" label="2">99新</nut-radio>
-          <nut-radio shape="button" label="3">久经沙场</nut-radio>
+          <nut-radio shape="button" label="全新">全新</nut-radio>
+          <nut-radio shape="button" label="99新">99新</nut-radio>
+          <nut-radio shape="button" label="久经沙场">久经沙场</nut-radio>
         </nut-radio-group>
       </div>
       <div class="diy-tags">
         <span class="title">DIY</span>
-        <nut-tag
-            color="#edeeef"
-            v-for="t in tags"
-            :key="t">{{ t }}
-        </nut-tag>
+        <nut-tag color="#edeeef" v-for="t in tags" :key="t">{{ t }}</nut-tag>
       </div>
-      <nut-input v-if="canAddTag" placeholder="自定义标签" class="tag-input" v-model="newTag"
-                 @keydown.enter="addTag"/>
+      <nut-input
+        v-if="canAddTag"
+        placeholder="自定义标签"
+        class="tag-input"
+        v-model="newTag"
+        @keydown.enter="addTag"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {useRouter} from "vue-router";
-import {showNotify} from "@nutui/nutui";
+import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { showNotify } from "@nutui/nutui";
+import service from "@/requset";
 
-const des = ref('')
-const fineness = ref('')
-const newTag = ref('')
-const tags = ref(new Array<String>)
-const placeholder = '大家都看重品牌型号、入手渠道、转手原因...'
+const des = ref("");
+const fineness = ref("");
+const newTag = ref("");
+const tags = ref(new Array<String>());
+const placeholder = "大家都看重品牌型号、入手渠道、转手原因...";
 const router = useRouter();
 const autosize = {
   maxHeight: 300,
-  minHeight: 80
-}
+  minHeight: 80,
+};
 const canAddTag = computed(() => {
-  return tags.value.length < 9
-})
+  return tags.value.length < 9;
+});
 const cancelAdd = () => {
   router.back();
-}
+};
 const myNotify = (msg: string) => {
   showNotify.text(msg, {
     duration: 3000,
-    position: 'center',
-    type: 'warning'
-  })
-}
+    position: "center",
+    type: "warning",
+  });
+};
 const addTag = () => {
-  const val = newTag.value
-  if (['全新', '99新', '久经沙场'].includes(val)) {
-    myNotify('不能添加其他成色标签')
+  const val = newTag.value;
+  if (["全新", "99新", "久经沙场"].includes(val)) {
+    myNotify("不能添加其他成色标签");
   } else if (tags.value.includes(val)) {
-    myNotify('不能添加已有标签')
+    myNotify("不能添加已有标签");
   } else {
     tags.value.push(val);
   }
-  newTag.value = '';
-}
+  newTag.value = "";
+};
+const onsubmit = () => {
+  // console.log(tags.value.map());
+  const data = {
+    des: des.value,
+    tags: [fineness.value, ...tags.value],
+    img: [],
+  };
+  service.post("stuff/add", data);
+  console.log(data);
+};
 </script>
 
 <style scoped lang="scss">

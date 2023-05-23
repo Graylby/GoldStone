@@ -1,6 +1,6 @@
 <template>
   <div class="stuff-box">
-    <nut-image class="img" :src="info.img"/>
+    <nut-image class="img" :src="info.img" />
     <p class="des">{{ info.des }}</p>
     <p class="tag">
       <nut-tag v-for="v in info.tags" color="#E9E9E9" textColor="#999999">
@@ -11,11 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import {StuffInfo} from '../../interface';
+import { StuffInfo } from "../../interface";
 
 defineProps<{
-  info: StuffInfo
-}>()
+  info: StuffInfo;
+}>();
 </script>
 
 <style scoped lang="scss">
@@ -26,8 +26,11 @@ defineProps<{
 
   .des {
     text-align: left;
-    padding: 0 10px;
+    padding: 10px 10px 0 10px;
     margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   .tag {

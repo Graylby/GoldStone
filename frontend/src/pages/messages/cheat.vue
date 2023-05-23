@@ -1,116 +1,105 @@
 <template>
   <div>
-    <nut-navbar @on-click-back="onBack" :left-show="true" class="top_nav" :title="targetName"/>
-    <nut-form v-if="!isTalking" class="form_box">
-      <nut-form-item label="你的名字">
-        <nut-input v-model="myName"/>
-      </nut-form-item>
-      <nut-form-item label="对方的名字">
-        <nut-input v-model="targetName"/>
-      </nut-form-item>
-      <nut-cell>
-        <nut-button block @click="toMessages()">开始聊天</nut-button>
-      </nut-cell>
-    </nut-form>
-    <div v-else class="cheat_box">
-      <div v-for="msg in messages" :key="msg.id">
-        {{ msg.data }}
+    <!--    <nut-navbar-->
+    <!--      @on-click-back="onBack"-->
+    <!--      :left-show="true"-->
+    <!--      class="top_nav"-->
+    <!--      title="消息"-->
+    <!--    />-->
+    <div class="top-nav">
+      <div class="title">消息</div>
+      <div class="clear">
+        <i class="iconfont icon-clear" />
+        <span>清除未读</span>
       </div>
-      <div class="msg_input_box">
-        <nut-input v-model="myMsg"/>
-        <nut-button @click="onSend">发送</nut-button>
-      </div>
+    </div>
+    <div class="user-list">
+      <user-card
+        @click="toMsgDetail(v)"
+        v-for="v in userList"
+        :info="v"
+        :key="v.id"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {inject, ref} from "vue";
-import {useRouter} from "vue-router";
-import service from "../../requset";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import UserCard from "@/components/messages/UserCard.vue";
+import { store } from "@/store/store";
 
-const myName = ref('')
-const targetName = ref('')
-const isTalking = ref(false)
-const messages = ref([
+const userList = ref([
   {
-    id: Symbol(),
-    data: '消息'
+    id: 0,
+    name: "张伟",
+    avatar:
+      "https://img12.360buyimg.com/n1/s450x450_jfs/t1/163481/23/35321/74958/6424fa60F45118251/9d9b976e0285bac3.jpg",
+    lastMsg: "这个质量怎么样啊",
+    lastDate: "两天前",
   },
   {
-    id: Symbol(),
-    data: '消息'
+    id: 1,
+    name: "张3",
+    avatar:
+      "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fblog%2F202106%2F13%2F20210613235426_7a793.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1685194574&t=207bce71368cfb79cfe474a418ae2085",
+    lastMsg: "这个质量怎么样啊",
+    lastDate: "两天前",
   },
-  {
-    id: Symbol(),
-    data: '消息'
-  },
-  {
-    id: Symbol(),
-    data: '消息'
-  },
-  {
-    id: Symbol(),
-    data: '消息'
-  },
-])
-const myMsg = ref('')
-const myId = ref('')
-const keys = ref(new Set())
+]);
 
-const socket: any = inject('socket')
-const router = useRouter()
+const router = useRouter();
 
-const toMessages = () => {
-  isTalking.value = true;
-  socket.emit('login')
-  socket.on('getLoginId', (res: any) => {
-    myId.value = res
-  })
-  // socket.emit('myEvent', 1, 1, 1)
-  // socket.on('myEventResult', (res: any) => {
-  //   console.log(res)
-  // })
-}
 const onBack = () => {
-  router.back()
-}
-const onSend = () => {
-  messages.value.push({
-    id: Symbol(),
-    data: myMsg.value,
-  })
-  // socket.emit('sendMsg', targetName, myMsg.value);
-  const data = {
-    id: myId.value,
-    targetName: targetName.value,
-    msg: myMsg.value,
-    key: Date.now()
-  }
-  console.log(data)
-  service.post('/test', data).then(res => {
-    console.log(res)
-  })
-  socket.on('receiveMsg', (res: any) => {
-    console.log(keys.value)
-    console.log(res.key)
-    if (!keys.value.has(res.key)) {
-      console.log('meiyoukey')
-      messages.value.push({
-        id: Symbol(),
-        data: res.msg
-      })
-    }
-    console.log(res)
-  })
-  myMsg.value = ''
-}
+  router.back();
+};
+const toMsgDetail = (user: any) => {
+  console.log(user.id);
+  store.navTitle = user.name;
+  store.userInfo = {
+    id: user.id,
+    name: user.name,
+    avatar: user.avatar,
+  };
+  router.push({
+    name: "message",
+  });
+};
 </script>
 
 <style scoped lang="scss">
-.top_nav {
+.top-nav {
+  $title-height: 32px;
   width: 100%;
-  height: 60px;
+  height: $title-height;
+  display: flex;
+  padding: 10px 10px;
+  background: #ffffff;
+
+  .title {
+    font-size: 32px;
+    line-height: 32px;
+  }
+
+  .clear {
+    height: 20px;
+    padding: 5px 10px;
+    background: #e0e0e0;
+    color: #888888;
+    border-radius: 15px;
+    text-align: center;
+    align-items: center;
+    margin-left: 10px;
+  }
+}
+
+.user-list {
+  padding: 10px;
+
+  :deep(.box) {
+    margin-bottom: 20px;
+  }
 }
 
 .form_box {
@@ -118,8 +107,7 @@ const onSend = () => {
   width: 70%;
   border-radius: 70px;
   background: #e0e0e0;
-  box-shadow: 41px 41px 82px #696969,
-  -41px -41px 82px #ffffff;
+  box-shadow: 41px 41px 82px #696969, -41px -41px 82px #ffffff;
 }
 
 .cheat_box {

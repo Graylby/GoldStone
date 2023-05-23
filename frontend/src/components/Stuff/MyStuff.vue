@@ -3,7 +3,8 @@
     <div class="info">
       <div class="img">
         <nut-image
-            src="https://img12.360buyimg.com/n1/s450x450_jfs/t1/163481/23/35321/74958/6424fa60F45118251/9d9b976e0285bac3.jpg"/>
+          src="https://img12.360buyimg.com/n1/s450x450_jfs/t1/163481/23/35321/74958/6424fa60F45118251/9d9b976e0285bac3.jpg"
+        />
       </div>
       <div class="main-info">
         <div class="des-box">
@@ -19,15 +20,13 @@
       <span @click="$emit('onMore')">更多</span>
       <nut-button>编辑</nut-button>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-
-const dataInfo = '浏览5·收藏3'
-const info = '这是一段描述'
-
+const dataInfo = "浏览5·收藏3";
+const info =
+  "这是一段描述,当描述过长时将会隐藏多余的内容。这是一段描述,当描述过长时将会隐藏多余的内容。这是一段描述,当描述过长时将会隐藏多余的内容";
 </script>
 
 <style scoped lang="scss">
@@ -57,11 +56,26 @@ $opSize: 30px;
       justify-content: space-between;
       align-items: start;
       margin-left: 10px;
+      width: 100%;
 
       .des-box {
         .tags {
           margin-top: 10px;
           display: flex;
+        }
+
+        .des {
+          width: 100%;
+          text-align: start;
+          font-size: 16px;
+          max-height: 48px;
+          word-break: break-all; //在恰当的断字点进行换行
+          overflow: hidden; //文字超出的进行隐藏
+          text-overflow: ellipsis; //超出的文字用省略号表示
+          display: -webkit-box; //将元素设为盒子伸缩模型显示
+          text-overflow: ellipsis; //利用盒子模型
+          -webkit-box-orient: vertical; //伸缩方向设为垂直方向
+          -webkit-line-clamp: 3; //设定一共3行，超出的部分隐藏，并用省略号来表示
         }
       }
 

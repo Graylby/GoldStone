@@ -3,13 +3,12 @@
     <div class="tit item">GoldStone</div>
     <div class="form-box item">
       <el-form ref="formRef" :model="form" :rules="rules">
-        <el-form-item class="username" prop="username">
+        <el-form-item prop="username">
           <el-input
             :prefix-icon="User"
             v-model="form.username"
-            placeholder="请输入手机号"
+            placeholder="请输入用户名"
           ></el-input>
-          <el-button> 发送验证码</el-button>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -19,24 +18,8 @@
             placeholder="请输入密码"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            :prefix-icon="Lock"
-            v-model="form.password"
-            show-password
-            placeholder="请确认密码"
-          ></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            :prefix-icon="Key"
-            v-model="form.password"
-            show-password
-            placeholder="请输入验证码"
-          ></el-input>
-        </el-form-item>
         <el-form-item>
-          <el-button round @click="submit(formRef)">注册</el-button>
+          <el-button round @click="submit(formRef)">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -44,11 +27,13 @@
 </template>
 
 <script setup lang="ts">
-import { Key, Lock, User } from "@element-plus/icons-vue";
+import { Lock, User } from "@element-plus/icons-vue";
 import { reactive, ref } from "vue";
 import { FormInstance } from "element-plus";
+import { useRouter } from "vue-router";
 //data
 const formRef = ref<FormInstance>();
+const router = useRouter();
 const form = reactive({
   username: "",
   password: "",
@@ -82,6 +67,9 @@ const submit = (formEl: FormInstance | undefined) => {
     }
   });
 };
+const onChangePage = (to: string) => {
+  router.push({ name: to });
+};
 </script>
 
 <style scoped lang="scss">
@@ -101,7 +89,7 @@ const submit = (formEl: FormInstance | undefined) => {
   border-radius: 39px;
   background: $bg-color;
   box-shadow: 10px 10px 20px $bg-color, -10px -10px 20px $bg-border-color;
-  transform: translateY(40%);
+  transform: scale(2) translateY(50%);
 
   .tit {
     height: 50px;
@@ -109,25 +97,8 @@ const submit = (formEl: FormInstance | undefined) => {
 
   .form-box {
     $inputHeight: 42px;
-    $formHeight: ($inputHeight + 18px) * 5 + 10px;
+    $formHeight: ($inputHeight + 18px) * 3 + 10px;
     height: $formHeight;
-
-    .username {
-      :deep(.el-form-item__content) {
-        display: flex;
-
-        .el-input {
-          flex: 1;
-          width: auto;
-        }
-
-        .el-button {
-          width: 80px;
-          border-radius: 21px;
-          margin-left: 10px;
-        }
-      }
-    }
 
     .el-form-item {
       height: $inputHeight;
