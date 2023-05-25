@@ -1,8 +1,8 @@
 <template>
-  <search-bar :is-home="true" />
+  <search-bar :is-home="true" @search="search" />
   <div class="main-box">
     <div class="stuff-box" v-for="v in stuffs">
-      <stuff class="stuff" :info="v" />
+      <stuff @click="toDetail(v.id)" class="stuff" :info="v" />
     </div>
   </div>
 </template>
@@ -12,16 +12,50 @@ import { ref } from "vue";
 import { StuffInfo } from "@/interface";
 import Stuff from "@/components/Stuff/Stuff.vue";
 import SearchBar from "@/components/Nav/SearchBar.vue";
+import { useRouter } from "vue-router";
+import service from "@/requset";
 
+const router = useRouter();
 const stuffs = ref(new Array<StuffInfo>());
 const init = (val: number) => {
-  for (let i = 0; i < val; i++) {
-    stuffs.value.push({
-      img: `https://loremflickr.com/320/240/commodity/?random=${i + 1}`,
-      des: "这是一段描述,当描述过长时将会隐藏多余的内容。",
-      tags: ["99新", "索尼"],
+  service.get("/stuff/all").then((res) => {
+    stuffs.value = res.data.data.map((v: any) => {
+      return {
+        id: v.id,
+        img: v.img[0],
+        des: v.des,
+        tags: v.tags,
+      };
     });
-  }
+    console.log(res);
+  });
+  // for (let i = 0; i < val; i++) {
+  //   stuffs.value.push({
+  //     id: i,
+  //     img: `https://loremflickr.com/320/240/commodity/?random=${i + 1}`,
+  //     des: "这是一段描述,当描述过长时将会隐藏多余的内容。",
+  //     tags: ["99新", "索尼"],
+  //   });
+  // }
+};
+const toDetail = (id: number) => {
+  router.push({ name: "detail", params: { id: id } });
+};
+const search = (val: string) => {
+  service
+    .post("/stuff/search", {
+      keyword: val,
+    })
+    .then((res) => {
+      stuffs.value = res.data.data.map((v: any) => {
+        return {
+          id: v.id,
+          img: v.img[0],
+          des: v.des,
+          tags: v.tags,
+        };
+      });
+    });
 };
 init(50);
 </script>

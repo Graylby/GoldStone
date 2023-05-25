@@ -63,7 +63,7 @@ $fontSize: 32px;
       font-weight: bold;
 
       .title {
-        font-size: $fontSize;
+        font-size: calc($fontSize - 7px);
         height: $fontSize;
         line-height: $fontSize;
       }

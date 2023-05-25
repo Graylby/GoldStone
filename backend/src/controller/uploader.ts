@@ -1,20 +1,19 @@
-import { Controller, Fields, Files, Inject, Post } from '@midwayjs/core';
+import { Controller, Files, Inject, Post } from '@midwayjs/core';
 import { myRes } from '../util/myRes';
-import { UserService } from '../service/user';
+import { Context } from 'egg';
 
-@Controller('/api')
+@Controller('/upload')
 export class UploaderController {
   @Inject()
   res: myRes;
   @Inject()
-  userService: UserService;
-  @Inject()
-  ctx;
+  ctx: Context;
 
-  @Post('/upload')
-  async imgUpload(@Files() files, @Fields() fields) {
-    console.log(files);
-    console.log(fields);
-    return this.res.success(files);
+  @Post('/img')
+  async imgUpload(@Files() files) {
+    const name =
+      'http://gold.gray7.top/img/upload_' + files[0].data.split('_')[1];
+    console.log(files[0].data.split('_'));
+    return this.res.success({ url: name });
   }
 }

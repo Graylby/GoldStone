@@ -18,7 +18,6 @@ export class MsgController {
   @OnWSMessage('login')
   @WSEmit('getLoginId')
   async login() {
-    console.log('login');
     return this.ctx.id;
   }
 
@@ -27,15 +26,11 @@ export class MsgController {
   async gotMessage(data1, data2, data3) {
     console.log(data1, data2, data3);
     this.ctx.emit('myEventResult', 'harry');
-    // return {
-    //   name: 'harry',
-    //   result: data1 + data2 + data3,
-    // };
   }
 
   @OnWSMessage('sendMsg')
-  async getMsg(targetName, msg) {
-    console.log(targetName, msg);
+  async getMsg(recId, msg) {
+    console.log(recId, msg);
     this.ctx.emit('receiveMsg', msg);
   }
 }

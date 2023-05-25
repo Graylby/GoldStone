@@ -2,9 +2,7 @@
   <div class="account-box">
     <div class="user-info">
       <nut-avatar size="large">
-        <img
-          src="https://img12.360buyimg.com/imagetools/jfs/t1/196430/38/8105/14329/60c806a4Ed506298a/e6de9fb7b8490f38.png"
-        />
+        <nut-image :src="avatar" />
       </nut-avatar>
       <div class="user-name">
         <p>{{ user.name }}</p>
@@ -12,7 +10,7 @@
       </div>
     </div>
     <div class="info-menu">
-      <div v-for="(v, i) in infoMenu" :key="i">
+      <div v-for="(v, i) in infoMenu" :key="i" @click="to(v.type)">
         <p>{{ v.val }}</p>
         <p>{{ v.name }}</p>
       </div>
@@ -20,10 +18,10 @@
     <div class="order-menu">
       <div class="box">
         <div class="title item">我的交易</div>
-        <div class="all item">全部</div>
+        <!--        <div class="all item">全部</div>-->
       </div>
       <div class="recent-order">
-        <order-card />
+        <order-card v-for="o in orders" :order-info="o" />
       </div>
     </div>
     <div class="menu"></div>
@@ -33,29 +31,57 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import OrderCard from "@/components/Order/OrderCard.vue";
+import { useRouter } from "vue-router";
+import service from "@/requset";
 
+const router = useRouter();
 const user = reactive({
   name: "Gray尘离",
   tag: "金牌用户",
 });
+const avatar = ref(
+  "https://img12.360buyimg.com/imagetools/jfs/t1/196430/38/8105/14329/60c806a4Ed506298a/e6de9fb7b8490f38.png"
+);
+const orders = reactive(new Array<any>());
 const infoMenu = ref([
   {
     name: "收藏",
     val: 0,
+    type: "",
   },
   {
     name: "历史浏览",
-    val: 7,
+    val: 0,
+    type: "",
   },
   {
     name: "关注",
     val: 3,
+    type: "following",
   },
   {
     name: "粉丝",
     val: 6,
+    type: "fans",
   },
 ]);
+const init = () => {
+  service.get("/order/info").then((res) => {
+    const data = res.data.data;
+    user.name = data.name;
+    user.tag = data.label;
+    avatar.value = data.avatar;
+    infoMenu.value[2].val = data.following;
+    infoMenu.value[3].val = data.follower;
+    orders.push(...data.list);
+  });
+};
+init();
+const to = (type: string) => {
+  if (type !== "") {
+    router.push({ name: "follow", params: { type: type } });
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -104,6 +130,8 @@ p {
   .order-menu {
     box-sizing: border-box;
     width: 100%;
+    max-height: 600px;
+    overflow: scroll;
     padding: 10px;
     border-radius: 10px;
     background: #ffffff;
@@ -120,7 +148,7 @@ p {
     }
 
     .recent-order {
-      height: 30px;
+      //height: 30px;
     }
   }
 }

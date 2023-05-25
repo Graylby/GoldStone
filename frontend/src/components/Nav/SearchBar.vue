@@ -1,33 +1,38 @@
 <template>
   <div class="search-box">
-    <nut-navbar v-if="!isHome" @on-click-back="onBack" :left-show="true" class="top_nav" :title="targetName">
+    <nut-navbar v-if="!isHome" :left-show="true" class="top_nav">
       <template #content>
         <nut-searchbar v-model="searchVal">
           <template v-slot:leftin>
-            <i class="iconfont icon-search"/>
+            <i class="iconfont icon-search" />
           </template>
         </nut-searchbar>
       </template>
     </nut-navbar>
-    <nut-searchbar v-else v-model="searchVal">
+    <nut-searchbar v-else v-model="searchVal" @search="search">
       <template v-slot:leftin>
-        <i class="iconfont icon-search"/>
+        <i class="iconfont icon-search" />
       </template>
     </nut-searchbar>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from "vue";
 
 defineProps({
   isHome: {
     type: Boolean,
     require: false,
     default: false,
-  }
-})
-const searchVal = ref('')
+  },
+});
+const emit = defineEmits(["search"]);
+const searchVal = ref("");
+const search = () => {
+  emit("search", searchVal.value);
+  searchVal.value = "";
+};
 </script>
 
 <style scoped lang="scss">

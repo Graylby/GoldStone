@@ -13,4 +13,22 @@ export class UserPassport {
 
   @Column()
   name: string;
+
+  @Column()
+  avatar: string;
+
+  @Column({ name: 'create_time' })
+  createTime: string;
+
+  @Column()
+  label: string;
+
+  @Column({ name: 'following_list' })
+  followingList: string;
+
+  @Column({ name: 'follower_list' })
+  followerList: string;
+
+  @Column({ name: 'last_login_date' })
+  lastLoginDate: string;
 }

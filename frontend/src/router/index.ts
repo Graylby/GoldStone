@@ -1,15 +1,14 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  onBeforeRouteUpdate,
-} from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import routes from "./routes";
+import Cookie from "js-cookie";
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
-onBeforeRouteUpdate((to) => {
-  console.log("---", to);
+router.beforeEach((to, from, next) => {
+  const token = Cookie.get("token");
+  if (to.name !== "login" && token === undefined) next({ name: "login" });
+  next();
 });
 export default router;

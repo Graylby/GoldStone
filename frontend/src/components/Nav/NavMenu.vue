@@ -7,7 +7,7 @@
       :key="m.id"
     >
       <div class="inner-item">
-        <nut-badge :hidden="m.hasBadge" :value="8" :color="badgeColor">
+        <nut-badge :hidden="m.hasBadge" :value="0" :color="badgeColor">
           <i :class="'iconfont icon-' + m.icon" />
         </nut-badge>
         <span>{{ m.name }}</span>

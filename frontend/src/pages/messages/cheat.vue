@@ -29,7 +29,39 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import UserCard from "@/components/messages/UserCard.vue";
 import { store } from "@/store/store";
+import service from "@/requset";
 
+const dateCalc = (time: string) => {
+  const DAY = 24 * 60 * 60 * 1000;
+  const WEEK = 7 * DAY;
+  const val = Date.now() - Date.parse(time);
+  const token = time.split(" ");
+  if (val < DAY) {
+    const t = token[1].split(":").map((v) => {
+      if (v.length === 1) return "0" + v;
+      return v;
+    });
+    return [t[0], t[1]].join(":");
+  }
+  if (val < WEEK) return Math.floor(val / DAY);
+  return token[0];
+};
+const init = () => {
+  service.get("/msg/list").then((res) => {
+    const list = res.data.data;
+    userList.value = list.map((v: any) => {
+      return {
+        id: v.userId,
+        name: v.name,
+        avatar: v.avatar,
+        lastMsg: v.content,
+        lastDate: dateCalc(v.time),
+      };
+    });
+    console.log(res);
+  });
+};
+init();
 const userList = ref([
   {
     id: 0,
@@ -50,10 +82,6 @@ const userList = ref([
 ]);
 
 const router = useRouter();
-
-const onBack = () => {
-  router.back();
-};
 const toMsgDetail = (user: any) => {
   console.log(user.id);
   store.navTitle = user.name;
@@ -64,6 +92,9 @@ const toMsgDetail = (user: any) => {
   };
   router.push({
     name: "message",
+    params: {
+      id: user.id,
+    },
   });
 };
 </script>

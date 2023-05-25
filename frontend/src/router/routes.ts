@@ -11,10 +11,18 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     name: "detail",
-    path: "/detail",
+    path: "/detail/:id",
     component: () => import("../pages/home/stuffDetail.vue"),
     meta: {
-      hasInfo: true,
+      hasNav: true,
+    },
+  },
+  {
+    name: "user",
+    path: "/user/:id",
+    component: () => import("../pages/account/user.vue"),
+    meta: {
+      hasNav: true,
     },
   },
   {
@@ -31,6 +39,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../pages/store/newStuff.vue"),
   },
   {
+    name: "stuffEdit",
+    path: "/stuff/edit",
+    component: () => import("../pages/store/newStuff.vue"),
+  },
+  {
     name: "cheat",
     path: "/cheat",
     component: () => import("../pages/messages/cheat.vue"),
@@ -40,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     name: "message",
-    path: "/message",
+    path: "/message/:id",
     component: () => import("../pages/messages/messages.vue"),
     meta: {
       hasNav: true,
@@ -52,6 +65,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../pages/account/account.vue"),
     meta: {
       hasTabBar: true,
+    },
+  },
+  {
+    name: "follow",
+    path: "/follow/:type",
+    component: () => import("../pages/account/follow.vue"),
+    meta: {
+      hasNav: true,
     },
   },
   {

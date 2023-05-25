@@ -9,7 +9,7 @@
           <el-menu default-active="dashboard" :router="true">
             <el-menu-item index="dashboard"> 数据大屏</el-menu-item>
             <el-menu-item index="service"> 纠纷处理</el-menu-item>
-            <el-menu-item index="users"> 管理员用户管理</el-menu-item>
+            <!--            <el-menu-item index="users"> 管理员用户管理</el-menu-item>-->
           </el-menu>
         </el-aside>
         <el-main>

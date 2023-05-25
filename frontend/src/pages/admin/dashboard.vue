@@ -4,20 +4,96 @@
       <div>{{ v.title }}</div>
       <div>{{ v.value }}</div>
     </div>
-    <div
-      v-for="v in charts"
-      :key="v.index"
-      ref="chartsDom"
-      class="chart-box"
-    ></div>
+    <div id="chartsDom1" class="chart-box"></div>
+    <div id="chartsDom2" class="chart-box"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import * as echarts from "echarts";
+import service from "@/requset";
 
-const chartsDom = reactive([]);
+const init = () => {
+  service.get("/order/dashboard").then((res) => {
+    const data = res.data.data;
+    cards[0].value = data.dayOrder;
+    cards[1].value = data.monOrder;
+    cards[2].value = data.monUser;
+    cards[3].value = data.yearUser;
+    const mon = new Date().getMonth() + 1;
+    const day = new Date().getDate();
+    const arr = [];
+    for (let i = 0; i < 7; i++) {
+      arr.push(day - i - 1);
+    }
+    xAxis.push(
+      arr.map((v) => {
+        return mon + "." + v;
+      })
+    );
+    chartData1.value = {
+      index: "order1",
+      title: "订单成交量",
+      option: {
+        title: {
+          text: "一周内订单成交量",
+          left: "center",
+        },
+        tooltip: {
+          trigger: "item",
+        },
+        xAxis: {
+          type: "category",
+          data: ["4.13", "4.13", "4.14", "4.15", "4.16", "4.17", "4.18"],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: data.weekOrder,
+            type: "bar",
+            smooth: true,
+          },
+        ],
+      },
+    };
+    chartData2.value = {
+      index: "order1",
+      title: "订单成交量",
+      option: {
+        title: {
+          text: "最近半年平台用户量",
+          left: "center",
+        },
+        tooltip: {
+          trigger: "item",
+        },
+        xAxis: {
+          type: "category",
+          data: ["11月", "12月", "1月", "2月", "3月", "4月"],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: data.halfYearUser,
+            type: "line",
+            smooth: true,
+          },
+        ],
+      },
+    };
+    chartData1.value = data.weekOrder;
+    chartData2.value = data.halfYearUser;
+  });
+};
+init();
+const xAxis = reactive(new Array<any>());
+const chartData1 = ref();
+const chartData2 = ref();
 const cards = reactive([
   {
     index: "lastDayOrders",
@@ -40,66 +116,72 @@ const cards = reactive([
     value: 356,
   },
 ]);
-const charts = reactive([
-  {
-    index: "order1",
-    title: "订单成交量",
-    option: {
-      title: {
-        text: "一周内订单成交量",
-        left: "center",
-      },
-      tooltip: {
-        trigger: "item",
-      },
-      xAxis: {
-        type: "category",
-        data: ["4.13", "4.13", "4.14", "4.15", "4.16", "4.17", "4.18"],
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          data: [83, 72, 66, 59, 19, 57, 91],
-          type: "bar",
-          smooth: true,
-        },
-      ],
+const chart1 = reactive({
+  index: "order1",
+  title: "订单成交量",
+  option: {
+    title: {
+      text: "一周内订单成交量",
+      left: "center",
     },
-  },
-  {
-    index: "order1",
-    title: "订单成交量",
-    option: {
-      title: {
-        text: "最近半年平台用户量",
-        left: "center",
-      },
-      tooltip: {
-        trigger: "item",
-      },
-      xAxis: {
-        type: "category",
-        data: ["11月", "12月", "1月", "2月", "3月", "4月"],
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          data: [113, 207, 478, 577, 609, 699],
-          type: "line",
-          smooth: true,
-        },
-      ],
+    tooltip: {
+      trigger: "item",
     },
+    xAxis: {
+      type: "category",
+      data: ["5.19", "5.20", "5.21", "5.22", "5.23", "5.24", "5.25"],
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: [2, 0, 1, 0, 0, 0, 1],
+        type: "bar",
+        smooth: true,
+      },
+    ],
   },
-]);
+});
+const chart2 = reactive({
+  index: "order1",
+  title: "订单成交量",
+  option: {
+    title: {
+      text: "最近半年平台用户量",
+      left: "center",
+    },
+    tooltip: {
+      trigger: "item",
+    },
+    xAxis: {
+      type: "category",
+      data: ["11月", "12月", "1月", "2月", "3月", "4月"],
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: [1, 2, 3, 4, 5, 6],
+        type: "line",
+        smooth: true,
+      },
+    ],
+  },
+});
 onMounted(() => {
-  for (let i in charts) {
-    const chart = echarts.init(chartsDom[i]);
-    chart.setOption(charts[i].option);
+  // chart1.option.series[0].data = chartData1.value;
+  // chart2.option.series[0].data = chartData1.value;
+  const el1: HTMLElement | null = document.getElementById("chartsDom1");
+  if (el1) {
+    const chart11 = echarts.init(el1);
+    chart11.setOption(chart1.option);
+  }
+  const el2: HTMLElement | null = document.getElementById("chartsDom2");
+  if (el2) {
+    const chart22 = echarts.init(el2);
+    chart22.setOption(chart2.option);
   }
 });
 </script>

@@ -35,6 +35,9 @@ import { Lock, User } from "@element-plus/icons-vue";
 import { reactive, ref } from "vue";
 import { FormInstance } from "element-plus";
 import { useRouter } from "vue-router";
+import service from "@/requset";
+import { showToast } from "@nutui/nutui";
+import Cookie from "js-cookie";
 //data
 const formRef = ref<FormInstance>();
 const router = useRouter();
@@ -64,7 +67,20 @@ const submit = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      console.log("submit!", form);
+      console.log(form.username);
+      service
+        .post("/user/login", {
+          username: form.username,
+          password: form.password,
+        })
+        .then((res) => {
+          if (res.data.code === 200) {
+            Cookie.set("token", res.data.data);
+            router.push({ name: "home" });
+          } else {
+            showToast.text("用户名或密码错误");
+          }
+        });
     } else {
       console.log("error submit!");
       return false;

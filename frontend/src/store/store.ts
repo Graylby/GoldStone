@@ -7,4 +7,10 @@ export const store = reactive({
     name: "",
     avatar: "",
   },
+  stuffInfo: {
+    id: 0,
+    des: "",
+    tags: [],
+    img: [],
+  },
 });

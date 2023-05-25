@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="list">
-      <el-table :data="list" stripe style="width: 100%">
+      <el-table @row-click="onChoose" :data="list" stripe style="width: 100%">
         <el-table-column prop="date" label="日期" />
         <el-table-column prop="name" label="用户名称" />
         <el-table-column prop="des" label="投诉信息" />
@@ -9,9 +9,17 @@
     </div>
     <div class="cheat">
       <div class="header">
-        <div>张三</div>
+        <div>{{ title }}</div>
       </div>
-      <div class="content"></div>
+      <div class="content" :ref="bubble">
+        <msg-bubble
+          v-for="(v, i) in msg"
+          :msg="v.msg"
+          :is-me="v.isMe"
+          :key="i"
+          :id="`bubble-${v.id}`"
+        />
+      </div>
       <div class="option">
         <el-input class="input"></el-input>
         <el-button class="input">发送</el-button>
@@ -21,25 +29,32 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { nextTick, reactive, ref } from "vue";
+import service from "@/requset";
+import MsgBubble from "@/components/messages/MsgBubble.vue";
 
-const list = reactive([
-  {
-    date: "2023-03-04",
-    name: "张三",
-    des: "对方不发货",
-  },
-  {
-    date: "2023-03-05",
-    name: "张三",
-    des: "对方不发货",
-  },
-  {
-    date: "2023-04-04",
-    name: "张三",
-    des: "对方不发货",
-  },
-]);
+const msg = reactive(new Array<any>());
+const bubble = ref(null);
+const init = () => {
+  service.get("/order/badOrder").then((res) => {
+    list.push(...res.data.data);
+  });
+};
+init();
+const onChoose = (row: any) => {
+  title.value = row.name;
+  msg.splice(0, msg.length);
+  service.post("/msg/record2", { id1: row.id1, id2: row.id2 }).then((res) => {
+    const list = res.data.data;
+    msg.push(...list);
+    nextTick(() => {
+      const el = document.getElementById(`bubble-${msg[msg.length - 1].id}`);
+      el && el.scrollIntoView();
+    });
+  });
+};
+const title = ref();
+const list = reactive(new Array<any>());
 </script>
 
 <style scoped lang="scss">
@@ -83,6 +98,7 @@ const list = reactive([
       flex: 1;
       padding: 20px;
       background: #f7f8fa;
+      overflow: hidden;
     }
 
     .option {

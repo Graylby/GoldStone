@@ -2,31 +2,49 @@
   <div class="stuff-box">
     <div class="info">
       <div class="img">
-        <nut-image
-          src="https://img12.360buyimg.com/n1/s450x450_jfs/t1/163481/23/35321/74958/6424fa60F45118251/9d9b976e0285bac3.jpg"
-        />
+        <nut-image :src="info.img[0]" />
       </div>
       <div class="main-info">
         <div class="des-box">
-          <div class="des">{{ info }}</div>
+          <div class="des">{{ info.des }}</div>
           <div class="tags">
-            <nut-tag color="#E9E9E9" textColor="#999999">99新</nut-tag>
+            <nut-tag
+              v-for="t in info.tags"
+              color="#E9E9E9"
+              :key="t"
+              textColor="#999999"
+              >{{ t }}
+            </nut-tag>
           </div>
         </div>
         <div class="data-info">{{ dataInfo }}</div>
       </div>
     </div>
     <div class="option">
-      <span @click="$emit('onMore')">更多</span>
-      <nut-button>编辑</nut-button>
+      <span @click="$emit('onMore', info.id)">更多</span>
+      <nut-button v-if="!done" @click="toEdit">编辑</nut-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const dataInfo = "浏览5·收藏3";
-const info =
-  "这是一段描述,当描述过长时将会隐藏多余的内容。这是一段描述,当描述过长时将会隐藏多余的内容。这是一段描述,当描述过长时将会隐藏多余的内容";
+import { store } from "@/store/store";
+import router from "@/router";
+
+const props = defineProps<{
+  info: any;
+  done: boolean;
+}>();
+const dataInfo = "浏览0·收藏0";
+const toEdit = () => {
+  store.stuffInfo = {
+    id: props.info.id,
+    des: props.info.des,
+    tags: props.info.tags,
+    img: props.info.img,
+  };
+  router.push({ name: "stuffEdit" });
+};
 </script>
 
 <style scoped lang="scss">

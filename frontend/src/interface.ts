@@ -4,6 +4,7 @@ export const User = {
 };
 
 export interface StuffInfo {
+  id: number;
   img: String;
   des: String;
   tags: Array<String>;

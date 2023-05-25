@@ -7,23 +7,19 @@
     </div>
     <div class="des-info">
       <div class="name">{{ info.name }}</div>
-      <div class="msg">{{ info.lastMsg }}</div>
-      <div class="date">{{ info.lastDate }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { UserCardInfo } from "@/interface";
-
 defineProps<{
-  info: UserCardInfo;
+  info: any;
 }>();
 </script>
 
 <style scoped lang="scss">
 .box {
-  $cardHeight: 80px;
+  $cardHeight: 60px;
   $gray-font-color: rgb(139, 130, 130);
   display: flex;
   height: $cardHeight;

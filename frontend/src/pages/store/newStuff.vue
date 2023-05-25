@@ -11,7 +11,12 @@
         :autosize="autosize"
         v-model="des"
       />
-      <nut-uploader url="/api/api/upload" multiple maximum="9" />
+      <nut-uploader
+        @success="onSuccess"
+        url="/api/upload/img"
+        multiple
+        maximum="9"
+      />
     </div>
     <div class="tagEdit">
       <p>为旧物添加标签吧</p>
@@ -39,16 +44,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
+import { computed, reactive, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { showNotify } from "@nutui/nutui";
 import service from "@/requset";
+import { store } from "@/store/store";
 
+const route = useRoute();
 const des = ref("");
+const id = ref(0);
 const fineness = ref("");
 const newTag = ref("");
 const tags = ref(new Array<String>());
 const placeholder = "大家都看重品牌型号、入手渠道、转手原因...";
+const img = reactive(new Array<String>());
 const router = useRouter();
 const autosize = {
   maxHeight: 300,
@@ -57,6 +66,20 @@ const autosize = {
 const canAddTag = computed(() => {
   return tags.value.length < 9;
 });
+const init = () => {
+  if (route.name === "stuffEdit") {
+    console.log(store.stuffInfo);
+    const myInfo = store.stuffInfo;
+    des.value = myInfo.des;
+    id.value = myInfo.id;
+    for (const tag of myInfo.tags) {
+      if (tag === "全新" || tag === "99新" || tag === "久经沙场")
+        fineness.value = tag;
+      else tags.value.push(tag);
+    }
+  }
+};
+init();
 const cancelAdd = () => {
   router.back();
 };
@@ -79,14 +102,20 @@ const addTag = () => {
   newTag.value = "";
 };
 const onsubmit = () => {
-  // console.log(tags.value.map());
   const data = {
     des: des.value,
     tags: [fineness.value, ...tags.value],
-    img: [],
+    img: [...img],
   };
-  service.post("stuff/add", data);
-  console.log(data);
+  const url = route.name === "stuffEdit" ? "/stuff/edit" : "/stuff/add";
+  service.post(url, data).then((res) => {
+    if (res.data.msg === "添加成功") router.back();
+    console.log(res);
+  });
+};
+const onSuccess = (res: any) => {
+  const url: string = JSON.parse(res.responseText).data.url;
+  img.push(url);
 };
 </script>
 
@@ -101,7 +130,6 @@ const onsubmit = () => {
     top: 0;
     display: flex;
     background: var(--bg-color);
-    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 25px;

@@ -1,6 +1,6 @@
 <template>
   <div class="stuff-box">
-    <nut-image class="img" :src="info.img" />
+    <nut-image class="img" :src="info.img" fit="cover" />
     <p class="des">{{ info.des }}</p>
     <p class="tag">
       <nut-tag v-for="v in info.tags" color="#E9E9E9" textColor="#999999">
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { StuffInfo } from "../../interface";
+import { StuffInfo } from "@/interface";
 
 defineProps<{
   info: StuffInfo;
@@ -20,6 +20,10 @@ defineProps<{
 
 <style scoped lang="scss">
 .stuff-box {
+  .img {
+    aspect-ratio: 1;
+  }
+
   .img :deep(.nut-img) {
     border-radius: 20px 20px 0 0;
   }
