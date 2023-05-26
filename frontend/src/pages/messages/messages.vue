@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="content" :ref="bubble">
+    <div class="content">
       <msg-bubble
         v-for="(v, i) in msg"
         :msg="v.msg"
@@ -78,11 +78,20 @@ const route = useRoute();
 const socket: any = inject("socket");
 const isOnGenOrder = ref(false);
 const msg = reactive(new Array<any>());
-const bubble = ref(null);
 const myStuff = reactive(new Array<any>());
 const otherStuff = reactive(new Array<any>());
-const myChangeStuff = ref({ id: 0 });
-const otherChangeStuff = ref({ id: 0 });
+const myChangeStuff = ref({
+  id: 0,
+  img: "",
+  des: "",
+  tags: [],
+});
+const otherChangeStuff = ref({
+  id: 0,
+  img: "",
+  des: "",
+  tags: [],
+});
 console.log(store);
 const myMsg = ref("");
 
@@ -155,8 +164,18 @@ const onsubmit = () => {
     });
 };
 const onGenOrder = () => {
-  myChangeStuff.value = { id: 0 };
-  otherChangeStuff.value = { id: 0 };
+  myChangeStuff.value = {
+    id: 0,
+    img: "",
+    des: "",
+    tags: [],
+  };
+  otherChangeStuff.value = {
+    id: 0,
+    img: "",
+    des: "",
+    tags: [],
+  };
   const el = document.querySelector(".gen-order-box");
   const icon = document.querySelector(".gen-order");
   el &&

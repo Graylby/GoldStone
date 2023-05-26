@@ -9,7 +9,7 @@
             v-model="form.username"
             placeholder="请输入手机号"
           ></el-input>
-          <el-button> 发送验证码</el-button>
+          <el-button @click="sendCode"> 发送验证码</el-button>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -22,7 +22,7 @@
         <el-form-item prop="password">
           <el-input
             :prefix-icon="Lock"
-            v-model="form.password"
+            v-model="form.password2"
             show-password
             placeholder="请确认密码"
           ></el-input>
@@ -30,8 +30,7 @@
         <el-form-item prop="password">
           <el-input
             :prefix-icon="Key"
-            v-model="form.password"
-            show-password
+            v-model="form.code"
             placeholder="请输入验证码"
           ></el-input>
         </el-form-item>
@@ -47,11 +46,16 @@
 import { Key, Lock, User } from "@element-plus/icons-vue";
 import { reactive, ref } from "vue";
 import { FormInstance } from "element-plus";
+import service from "@/requset";
+import { showToast } from "@nutui/nutui";
+import router from "@/router";
 //data
 const formRef = ref<FormInstance>();
 const form = reactive({
   username: "",
   password: "",
+  password2: "",
+  code: "",
 });
 // 表单规则
 const phoneValidate = (rule: any, value: any, callback: any) => {
@@ -69,18 +73,35 @@ const passValidate = (rule: any, value: any, callback: any) => {
 const rules = reactive({
   username: [{ validator: phoneValidate, trigger: "blur" }],
   password: [{ validator: passValidate, trigger: "blur" }],
+  password2: [{ validator: passValidate, trigger: "blur" }],
 });
 //method
 const submit = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
+      service
+        .post("/user/register", {
+          username: form.username,
+          password: form.password,
+          code: form.code,
+        })
+        .then((res) => {
+          showToast.text(res.data.msg);
+          if (res.data.code === 200) {
+            router.push({ name: "login" });
+          }
+          console.log(res);
+        });
       console.log("submit!", form);
     } else {
       console.log("error submit!");
       return false;
     }
   });
+};
+const sendCode = () => {
+  service.post("/user/code", { phone: form.username });
 };
 </script>
 

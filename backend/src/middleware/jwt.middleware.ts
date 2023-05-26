@@ -13,6 +13,7 @@ export class JwtPassportMiddleware extends PassportMiddleware(JwtStrategy) {
     return (
       ctx.path === '/user/login' ||
       ctx.path === '/user/register' ||
+      ctx.path === '/user/code' ||
       ctx.path === '/test' ||
       ctx.path === '/upload/img'
     );

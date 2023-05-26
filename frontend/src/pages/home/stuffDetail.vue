@@ -13,6 +13,7 @@
         </div>
       </div>
       <div class="follow">
+        <i @click="toChat" class="iconfont icon-hi" />
         <div @click="onFollow" class="follow-btn">{{ followStatusStr }}</div>
       </div>
     </div>
@@ -23,7 +24,6 @@
     <div class="img">
       <nut-image v-for="v in img" :src="v" />
     </div>
-    <!--    <div class="bottom"></div>-->
   </div>
 </template>
 
@@ -80,6 +80,9 @@ const onFollow = () => {
 const toUserInfo = () => {
   router.push({ name: "user", params: { id: publisher.id } });
 };
+const toChat = () => {
+  router.push({ name: "message", params: { id: publisher.id } });
+};
 </script>
 
 <style scoped lang="scss">
@@ -124,6 +127,18 @@ const toUserInfo = () => {
     }
 
     .follow {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      .iconfont {
+        font-size: 30px;
+      }
+
+      .icon-hi::before {
+        color: rgba(128, 128, 128, 0.8);
+      }
+
       .follow-btn {
         width: 85px;
         font-size: 24px;

@@ -8,7 +8,8 @@ const router = createRouter({
 });
 router.beforeEach((to, from, next) => {
   const token = Cookie.get("token");
-  if (to.name !== "login" && token === undefined) next({ name: "login" });
-  next();
+  if (to.name === "register") next();
+  else if (to.name !== "login" && token === undefined) next({ name: "login" });
+  else next();
 });
 export default router;

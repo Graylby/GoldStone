@@ -11,7 +11,7 @@
       <div class="header">
         <div>{{ title }}</div>
       </div>
-      <div class="content" :ref="bubble">
+      <div class="content">
         <msg-bubble
           v-for="(v, i) in msg"
           :msg="v.msg"
@@ -34,7 +34,6 @@ import service from "@/requset";
 import MsgBubble from "@/components/messages/MsgBubble.vue";
 
 const msg = reactive(new Array<any>());
-const bubble = ref(null);
 const init = () => {
   service.get("/order/badOrder").then((res) => {
     list.push(...res.data.data);

@@ -69,10 +69,18 @@ const submit = (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log(form.username);
       service
-        .post("/user/login", {
-          username: form.username,
-          password: form.password,
-        })
+        .post(
+          "/user/login",
+          {
+            username: form.username,
+            password: form.password,
+          },
+          {
+            headers: {
+              noToken: true,
+            },
+          }
+        )
         .then((res) => {
           if (res.data.code === 200) {
             Cookie.set("token", res.data.data);

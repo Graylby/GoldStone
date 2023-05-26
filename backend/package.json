@@ -25,7 +25,15 @@
     "passport-jwt": "^4.0.0",
     "stream-wormhole": "^1.1.0",
     "swagger-ui-dist": "^4.15.5",
-    "typeorm": "^0.3.11"
+    "typeorm": "^0.3.11",
+    "@alicloud/tea-typescript": "latest",
+    "@alicloud/dysmsapi20170525": "2.0.1",
+    "@alicloud/openapi-client": "^0.3.0",
+    "@alicloud/tea-console": "^1.0.0",
+    "@alicloud/darabonba-env": "^1.0.0",
+    "@alicloud/tea-util": "^1.4.0",
+    "@darabonba/time": "^1.0.0",
+    "@alicloud/darabonba-string": "^1.0.0"
   },
   "devDependencies": {
     "@midwayjs/cli": "^2.0.0",

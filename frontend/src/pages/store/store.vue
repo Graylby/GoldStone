@@ -58,6 +58,7 @@ import { reactive, ref } from "vue";
 import MyStuff from "@/components/Stuff/MyStuff.vue";
 import { useRouter } from "vue-router";
 import service from "@/requset";
+import { menuItems } from "@nutui/nutui/dist/types/__VUE/actionsheet/index.vue";
 
 const addMyStuff = (type: number, arr: Array<any>) => {
   const list = arr.map((v) => {
@@ -98,7 +99,15 @@ const changing = reactive(new Array<any>());
 const done = reactive(new Array<any>());
 const isVisible = ref(false);
 const router = useRouter();
-const menuItems = [{ name: "下架" }];
+const menuItems: Array<menuItems> = [
+  {
+    name: "下架",
+    subname: "",
+    color: "",
+    loading: false,
+    disable: false,
+  },
+];
 const choseId = ref(0);
 const chooseItem = (item: any) => {
   if (item.name === "下架") {

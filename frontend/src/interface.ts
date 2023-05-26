@@ -5,15 +5,15 @@ export const User = {
 
 export interface StuffInfo {
   id: number;
-  img: String;
-  des: String;
-  tags: Array<String>;
+  img: string;
+  des: string;
+  tags: Array<string>;
 }
 
 export interface UserCardInfo {
   id: Number;
-  name: String;
-  avatar: String;
-  lastMsg: String;
-  lastDate: String;
+  name: string;
+  avatar: string;
+  lastMsg: string;
+  lastDate: string;
 }

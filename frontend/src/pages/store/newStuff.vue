@@ -30,7 +30,7 @@
       </div>
       <div class="diy-tags">
         <span class="title">DIY</span>
-        <nut-tag color="#edeeef" v-for="t in tags" :key="t">{{ t }}</nut-tag>
+        <nut-tag color="#edeeef" v-for="t in tags">{{ t }}</nut-tag>
       </div>
       <nut-input
         v-if="canAddTag"

@@ -1,74 +1,78 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 3923962 */
-  src: url('//at.alicdn.com/t/c/font_3923962_5vfwwybj6e9.woff2?t=1683576498023') format('woff2'),
-  url('//at.alicdn.com/t/c/font_3923962_5vfwwybj6e9.woff?t=1683576498023') format('woff'),
-  url('//at.alicdn.com/t/c/font_3923962_5vfwwybj6e9.ttf?t=1683576498023') format('truetype');
+    font-family: "iconfont"; /* Project id 3923962 */
+    src: url('//at.alicdn.com/t/c/font_3923962_xcdgpzj8m6a.woff2?t=1685069709728') format('woff2'),
+    url('//at.alicdn.com/t/c/font_3923962_xcdgpzj8m6a.woff?t=1685069709728') format('woff'),
+    url('//at.alicdn.com/t/c/font_3923962_xcdgpzj8m6a.ttf?t=1685069709728') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-hi:before {
+    content: "\e864";
 }
 
 .icon-user:before {
-  content: "\e6af";
+    content: "\e6af";
 }
 
 .icon-service:before {
-  content: "\e6b9";
+    content: "\e6b9";
 }
 
 .icon-dashboard:before {
-  content: "\e6bb";
+    content: "\e6bb";
 }
 
 .icon-clear:before {
-  content: "\e747";
+    content: "\e747";
 }
 
 .icon-plus:before {
-  content: "\e726";
+    content: "\e726";
 }
 
 .icon-back:before {
-  content: "\e779";
+    content: "\e779";
 }
 
 .icon-search:before {
-  content: "\e752";
+    content: "\e752";
 }
 
 .icon-store-fill:before {
-  content: "\e735";
+    content: "\e735";
 }
 
 .icon-store:before {
-  content: "\e736";
+    content: "\e736";
 }
 
 .icon-home-fill:before {
-  content: "\e750";
+    content: "\e750";
 }
 
 .icon-home:before {
-  content: "\e751";
+    content: "\e751";
 }
 
 .icon-account-fill:before {
-  content: "\e75d";
+    content: "\e75d";
 }
 
 .icon-account:before {
-  content: "\e75e";
+    content: "\e75e";
 }
 
 .icon-cheat-fill:before {
-  content: "\e745";
+    content: "\e745";
 }
 
 .icon-cheat:before {
-  content: "\e746";
+    content: "\e746";
 }

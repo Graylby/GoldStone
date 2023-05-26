@@ -1,7 +1,7 @@
 import { Provide } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Stuff } from '../entity/stuff';
-import { Like, Not, Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Provide()
 export class StuffService {
@@ -29,7 +29,7 @@ export class StuffService {
   }
 
   async findAllStuff() {
-    return await this.stuffModel.findBy({ status: Not(0) });
+    return await this.stuffModel.findBy({ status: 0 });
   }
 
   async getStuffInfo(id: number) {

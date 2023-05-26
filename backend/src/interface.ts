@@ -30,5 +30,5 @@ export interface LoginUser {
 export interface RegisterUser {
   username: string;
   password: string;
-  verification: string;
+  code: string;
 }

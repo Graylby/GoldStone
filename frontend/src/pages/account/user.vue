@@ -9,7 +9,7 @@ store.navTitle = "Gray";
 const userId = useRoute().params.id;
 const router = useRouter();
 const followStatus = ref(false);
-const stuff = ref([]);
+const stuff = ref(new Array<any>());
 const user = reactive({
   name: "Gray",
   label: "金牌用户",

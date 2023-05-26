@@ -26,7 +26,7 @@ export class messageController {
     const socketId = await this.redis.get(body.id);
     const sockets = await this.socketApp.in(socketId).fetchSockets();
     const socket = sockets[0];
-    socket.emit('receive', body.msg);
+    socket && socket.emit('receive', body.msg);
     return this.res.success(result);
   }
 

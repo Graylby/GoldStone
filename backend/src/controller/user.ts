@@ -8,6 +8,7 @@ import { RedisService } from '@midwayjs/redis';
 import { Context } from 'egg';
 import { StuffService } from '../service/stuff';
 import { OrderService } from '../service/order';
+import Client from '../util/messageClient';
 
 @Controller('/user')
 export class UserController {
@@ -25,6 +26,8 @@ export class UserController {
   stuffService: StuffService;
   @Inject()
   orderService: OrderService;
+  @Inject()
+  msgClient: Client;
 
   @Post('/login')
   async login(@Body() user: LoginUser) {
@@ -40,12 +43,20 @@ export class UserController {
 
   @Post('/register')
   async register(@Body() user: RegisterUser) {
+    console.log(user.code);
+    console.log(await this.redis.get(user.username));
+    if (user.code !== (await this.redis.get(user.username)))
+      return this.res.error('验证码错误');
     const newUser = new UserPassport();
     newUser.username = user.username;
     newUser.password = user.password;
     newUser.name = '会员用户';
+    newUser.label = '铜牌会员';
     newUser.avatar =
       'https://img12.360buyimg.com/imagetools/jfs/t1/196430/38/8105/14329/60c806a4Ed506298a/e6de9fb7b8490f38.png';
+    newUser.followingList = '[]';
+    newUser.followerList = '[]';
+
     const t = await this.userService.saveUser(newUser);
     return this.res.success(t, '注册成功');
   }
@@ -90,5 +101,22 @@ export class UserController {
       list: stuff,
     };
     return this.res.success(res);
+  }
+
+  @Post('/code')
+  async getCode(@Body() body) {
+    const phone = body.phone;
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += Math.floor(Math.random() * 10);
+    }
+    await this.msgClient.mainFun([
+      phone,
+      'Gray学习专用',
+      'SMS_460766277',
+      `{"code":"${code}"}`,
+    ]);
+    this.redis.set(phone, code, 'EX', 5 * 60);
+    return this.res.success();
   }
 }
